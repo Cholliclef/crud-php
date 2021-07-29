@@ -12,8 +12,10 @@ require("connect.php");
     <div class="card mt-5">
         <div class="card-header">
             <h2>All Staffs</h2>
-            <div>
-                <a href="create.php" type="button" class="btn btn-primary" title="Add New Record" style="vertical-align:bottom;">Create</a>
+            <div class="row">
+              <div class="col-md-12 text-right">
+              <a href="create.php" type="button" class="btn btn-primary" title="Add New Record" style="vertical-align:bottom;">Create</a>
+              </div>
             </div>
         </div>
         <div class="card-body">
