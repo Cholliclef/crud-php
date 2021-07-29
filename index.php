@@ -9,12 +9,80 @@ require("connect.php");
 	$pdo_statement->execute();
 	$result = $pdo_statement->fetchAll();
 ?>
+
+<!--Add Modal -->
+<div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST">
+              <div class="form-group">
+                  <label for="name">Firstname</label>
+                  <input type="text" class="form-control" name="firstname" id="firstname">
+              </div>
+              <div class="form-group">
+                  <label for="name">Surname</label>
+                  <input type="text" class="form-control" name="surname" id="surname" required>
+              </div>
+              <div class="form-group">
+                  <label for="name">Email</label>
+                  <input type="email" class="form-control" name="email" id="email" required>
+              </div>
+          </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Edit Modal -->
+<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST">
+              <div class="form-group">
+                  <label for="name">Firstname</label>
+                  <input type="text" class="form-control" name="firstname" id="firstname">
+              </div>
+              <div class="form-group">
+                  <label for="name">Surname</label>
+                  <input type="text" class="form-control" name="surname" id="surname" required>
+              </div>
+              <div class="form-group">
+                  <label for="name">Email</label>
+                  <input type="email" class="form-control" name="email" id="email" required>
+              </div>
+          </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
     <div class="card mt-5">
         <div class="card-header">
             <h2>All Staffs</h2>
             <div class="row">
               <div class="col-md-12 text-right">
-              <a href="create.php" type="button" class="btn btn-primary" title="Add New Record" style="vertical-align:bottom;">Create</a>
+              <button type="button" class="btn btn-success" data-toggle="modal" data-target="#add" style="width:100px;">Add</button>
               </div>
             </div>
         </div>
@@ -37,8 +105,8 @@ require("connect.php");
                     <td><?php echo $row["surname"]; ?></td>
                     <td><?php echo $row["email"]; ?></td>
                     <td>
-                    <a href="edit.php?id=<?= $person->id ?>" class="btn btn-info">Edit</a>
-                    <a href="delete.php?id=<?= $person->id ?>" class="btn btn-danger">Delete</a>
+                      <button type="button" class="btn btn-info" data-toggle="modal" data-target="#edit" style="width:100px;">Edit</button>
+                      <button type="button" class="btn btn-danger" style="width:100px;">Delete</button>
                     </td>
                 </tr>
                 <?php
