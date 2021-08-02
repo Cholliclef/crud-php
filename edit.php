@@ -12,28 +12,19 @@ if(isset($_POST['submit'])){
     $s_name = $_POST['surname'];
     $email = $_POST['email'];
 
-    $sql = "SELECT COUNT(email) AS num FROM staff WHERE email = :email";
-    $stmt = $pdo_conn->prepare($sql);
-    $stmt->bindValue(':email',$email);
-    $stmt->execute();
-
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if($row['num'] > 0){
-        echo '<script>alert("Email already exists");</script>';
-    }else{
-        $stmt = $pdo_conn->prepare("update staff set first_name='" . $_POST[ 'first_name' ] . "', surname='" . $_POST[ 'surname' ]. "', email='" . $_POST[ 'email' ]. "' where id=" . $_GET["id"]);
-        $stmt->bindParam(':first_name',$f_name);
-        $stmt->bindParam(':surname',$s_name);
-        $stmt->bindParam(':email',$email);
+    $stmt = $pdo_conn->prepare("UPDATE staff set first_name='" . $_POST[ 'firstname' ] . "', surname='" . $_POST[ 'surname' ]. "', email='" . $_POST[ 'email' ]. "' where id=" . $_GET["id"]);
+    $stmt->bindParam(':first_name',$f_name);
+    $stmt->bindParam(':surname',$s_name);
+    $stmt->bindParam(':email',$email);
 
         if ($stmt->execute()){
-            $message = 'Data updated';
+            // $message = 'Data updated';
+            echo '<script>window.location.replace("index.php")</script>';
+
         }else{
             $error = "Error: ".$e->getMessage();
             echo '<script>alert("'.$error.'");</script>';
         }
-    }
     }catch(PDOException $e){
         $error = "Error: ".$e->getMessage();
         echo '<script>alert("'.$error.'");</script>';
@@ -59,7 +50,7 @@ $result = $stmt->fetchAll();
          <form method="POST">
             <div class="form-group">
                 <label for="name">Firstname</label>
-                <input type="text" value="<?php echo $result[0]['firstname']; ?>" required class="form-control" name="firstname" id="firstname">
+                <input type="text" value="<?php echo $result[0]['first_name']; ?>" required class="form-control" name="firstname" id="firstname">
             </div>
             <div class="form-group">
                 <label for="name">Surname</label>

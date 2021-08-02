@@ -1,27 +1,29 @@
 <?php 
 define('BASEPATH', true);
 require("connect.php");
+$result ='';
 ?>
 <?php include ("header.php"); ?>
 <div class="container">
 <?php	
 	$pdo_statement = $pdo_conn->prepare("SELECT * FROM staff ORDER BY id DESC");
 	$pdo_statement->execute();
-	$result = $pdo_statement->fetchAll();
+  $result = $pdo_statement->fetchAll();
 ?>
+
 
 <!--Add Modal -->
 <div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Create a Profile</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form method="POST">
+        <form method="POST" action="create.php">
               <div class="form-group">
                   <label for="name">Firstname</label>
                   <input type="text" class="form-control" name="firstname" id="firstname">
@@ -34,11 +36,11 @@ require("connect.php");
                   <label for="name">Email</label>
                   <input type="email" class="form-control" name="email" id="email" required>
               </div>
+              <div><button name="submit" type="submit" value="Add" class="btn btn-info">Add</button></div>
           </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
   </div>
@@ -55,24 +57,24 @@ require("connect.php");
         </button>
       </div>
       <div class="modal-body">
-        <form method="POST">
+        <form method="POST" Action="edit.php">
               <div class="form-group">
                   <label for="name">Firstname</label>
-                  <input type="text" class="form-control" name="firstname" id="firstname">
+                  <input type="text" class="form-control" value="<?php echo $result[0]['first_name']; ?>" required name="firstname" id="firstname">
               </div>
               <div class="form-group">
                   <label for="name">Surname</label>
-                  <input type="text" class="form-control" name="surname" id="surname" required>
+                  <input type="text" class="form-control" value="<?php echo $result[0]['surname']; ?>" required name="surname" id="surname" required>
               </div>
               <div class="form-group">
                   <label for="name">Email</label>
-                  <input type="email" class="form-control" name="email" id="email" required>
+                  <input type="email" class="form-control" value="<?php echo $result[0]['email']; ?>" required name="email" id="email" required>
               </div>
+              <div><button name="submit" type="submit" value="edit" class="btn btn-info">Update</button></div>
           </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
   </div>
@@ -82,7 +84,7 @@ require("connect.php");
             <h2>All Staffs</h2>
             <div class="row">
               <div class="col-md-12 text-right">
-              <button type="button" class="btn btn-success" data-toggle="modal" data-target="#add" style="width:100px;">Add</button>
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#add" style="width:100px;">Add</button>
               </div>
             </div>
         </div>
@@ -105,8 +107,8 @@ require("connect.php");
                     <td><?php echo $row["surname"]; ?></td>
                     <td><?php echo $row["email"]; ?></td>
                     <td>
-                      <button type="button" class="btn btn-info" data-toggle="modal" data-target="#edit" style="width:100px;">Edit</button>
-                      <button type="button" class="btn btn-danger" style="width:100px;">Delete</button>
+                      <a href="edit.php?id=<?php echo $row['id']?>" class="btn btn-info" data-toggle="modal" data-target="" style="width:100px;">Edit</a>
+                      <a href="delete.php?id=<?php echo $row['id']?>" class="btn btn-danger" style="width:100px;">Delete</a>
                     </td>
                 </tr>
                 <?php

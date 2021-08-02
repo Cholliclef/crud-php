@@ -1,7 +1,7 @@
 <?php
 define('BASEPATH', true);	
 require("connect.php");
-$message = '';
+// $message = '';
 
 if(isset($_POST['submit'])){
     try{
@@ -31,7 +31,8 @@ if(isset($_POST['submit'])){
         $stmt->bindParam(':email',$email);
 
         if ($stmt->execute()){
-            $message = 'data inserted successfully';
+            // $message = 'data inserted successfully';
+            echo '<script>window.location.replace("index.php")</script>';
         }else{
             $error = "Error: ".$e->getMessage();
             echo '<script>alert("'.$error.'");</script>';
@@ -44,36 +45,3 @@ if(isset($_POST['submit'])){
 }
 ?>
 
-<?php include ("header.php"); ?>
-<div class="container">
-    <div class="card mt-5">
-        <div class="card header">
-            <a href="index.php" ><h2>Back to all staffs</h2></a>
-        </div>
-        <div class="card body">
-        <?php if(!empty($message)): ?>
-        <div class="alert alert-success">
-        <?= $message; ?>
-        </div>
-        <?php endif?>
-        <form method="POST">
-            <div class="form-group">
-                <label for="name">Firstname</label>
-                <input type="text" class="form-control" name="firstname" id="firstname" required>
-            </div>
-            <div class="form-group">
-                <label for="name">Surname</label>
-                <input type="text" class="form-control" name="surname" id="surname" required>
-            </div>
-            <div class="form-group">
-                <label for="name">Email</label>
-                <input type="email" class="form-control" name="email" id="email" required>
-            </div>
-            <div class="form-group">
-                <button name="submit" type="submit" value="Create" class="btn btn-info">Create a profile</button>
-            </div>
-        </form>
-        </div>
-    </div>
-</div>
-<?php include ("footer.php"); ?>
