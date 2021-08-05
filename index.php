@@ -5,11 +5,8 @@ $result ='';
 ?>
 <?php include ("header.php"); ?>
 <div class="container">
-<?php	
-	$pdo_statement = $pdo_conn->prepare("SELECT * FROM staff ORDER BY id DESC");
-	$pdo_statement->execute();
-  $result = $pdo_statement->fetchAll();
-?>
+
+
 
 
 <!--Add Modal -->
@@ -46,6 +43,7 @@ $result ='';
   </div>
 </div>
 
+<!-- ############################################################################################################ -->
 <!--Edit Modal -->
 <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -57,20 +55,21 @@ $result ='';
         </button>
       </div>
       <div class="modal-body">
-        <form method="POST" Action="edit.php">
+        <form method="POST" action="edit.php">
+              <input type="hidden" name="update_id" id="update_id">
               <div class="form-group">
                   <label for="name">Firstname</label>
-                  <input type="text" class="form-control" value="<?php echo $result[0]['first_name']; ?>" required name="firstname" id="firstname">
+                  <input type="text" class="form-control" name="firstname" id="first_name">
               </div>
               <div class="form-group">
                   <label for="name">Surname</label>
-                  <input type="text" class="form-control" value="<?php echo $result[0]['surname']; ?>" required name="surname" id="surname" required>
+                  <input type="text" class="form-control" name="surname" id="sur_name" required>
               </div>
               <div class="form-group">
                   <label for="name">Email</label>
-                  <input type="email" class="form-control" value="<?php echo $result[0]['email']; ?>" required name="email" id="email" required>
+                  <input type="email" class="form-control" name="email" id="e_mail" required>
               </div>
-              <div><button name="submit" type="submit" value="edit" class="btn btn-info">Update</button></div>
+              <div><button name="updatedata" type="submit" value="Edit" class="btn btn-info">Update</button></div>
           </form>
       </div>
       <div class="modal-footer">
@@ -79,8 +78,14 @@ $result ='';
     </div>
   </div>
 </div>
+
     <div class="card mt-5">
         <div class="card-header">
+        <?php	
+          $pdo_statement = $pdo_conn->prepare("SELECT * FROM staff ORDER BY id DESC");
+          $pdo_statement->execute();
+          $info = $pdo_statement->fetchAll();
+        ?>
             <h2>All Staffs</h2>
             <div class="row">
               <div class="col-md-12 text-right">
@@ -98,8 +103,8 @@ $result ='';
                     <th>Action</th>
                 </tr>
                 <?php
-                if(!empty($result)) { 
-                    foreach($result as $row) {
+                if($info) { 
+                    foreach($info as $row) {
                 ?>
                 <tr>
                     <td><?php echo $row["id"]; ?></td>
@@ -107,12 +112,15 @@ $result ='';
                     <td><?php echo $row["surname"]; ?></td>
                     <td><?php echo $row["email"]; ?></td>
                     <td>
-                      <a href="edit.php?id=<?php echo $row['id']?>" class="btn btn-info" data-toggle="modal" data-target="" style="width:100px;">Edit</a>
-                      <a href="delete.php?id=<?php echo $row['id']?>" class="btn btn-danger" style="width:100px;">Delete</a>
+                      <button type="button" class="btn btn-info editbtn" data-toggle="modal" data-target="#edit" style="width:100px;">Edit</button>
+                      <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#add" style="width:100px;">Delete</button>
                     </td>
                 </tr>
                 <?php
                     }
+                }
+                else {
+                    echo "no result found";
                 }
                 ?>
             </table>
